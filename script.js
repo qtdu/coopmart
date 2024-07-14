@@ -27,10 +27,10 @@ function startScanning() {
         
         Quagga.offDetected(); // Loại bỏ sự kiện để tránh quét nhiều lần
 
-        Quagga.onProcessed(function() {
+        //Quagga.onProcessed(function() {
             document.getElementById('result').innerText = `Scanned code: ${code}`;
             askForContinue(`Scanned code: ${code}`);
-        });
+        //});
         
         
     });
