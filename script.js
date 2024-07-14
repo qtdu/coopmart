@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Barcode detected and processed: [' + code + ']');
         resultElement.innerHTML = 'Detected Barcode: ' + code;
 
-        alert(code);
+        alert(result.codeResult);
 /*
         // Gửi mã code đến API
         fetch('https://yourapi.example.com/barcode', {
