@@ -32,16 +32,14 @@ function startScanning() {
             Quagga.stop(); // Dừng Quagga
             Quagga.offDetected(); // Loại bỏ sự kiện phát hiện để tránh quét lại cùng mã
 
-            Quagga.onProcessed(function() {
-                // Đảm bảo Quagga đã dừng hoàn toàn trước khi tiếp tục
-                askForContinue();
-            });
-        }
-        Quagga.offDetected(); // Loại bỏ sự kiện để tránh quét nhiều lần
-
-        //Quagga.onProcessed(function() {
             document.getElementById('result').innerText = `Scanned code: ${code}`;
             askForContinue(`Scanned code: ${code}`);
+        }
+        //Quagga.offDetected(); // Loại bỏ sự kiện để tránh quét nhiều lần
+
+        //Quagga.onProcessed(function() {
+            //document.getElementById('result').innerText = `Scanned code: ${code}`;
+            //askForContinue(`Scanned code: ${code}`);
         //});
         
         
