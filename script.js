@@ -25,6 +25,7 @@ function startScanning() {
         Quagga.stop();
         let code = result.codeResult.code;
         document.getElementById('result').innerText = `Scanned code: ${code}`;
+        alert(`Scanned code: ${code}`)
         askForContinue();
     });
 }
