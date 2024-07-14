@@ -1,67 +1,32 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const resultElement = document.getElementById('result');
-
-    function startScanner() {
-        Quagga.init({
-            inputStream: {
-                name: "Live",
-                type: "LiveStream",
-                target: document.querySelector('#interactive'),
-                constraints: {
-                    width: 640,
-                    height: 480,
-                    facingMode: "environment" // or "user" for front camera
-                },
+document.addEventListener('DOMContentLoaded', function () {
+    // Cấu hình QuaggaJS
+    Quagga.init({
+        inputStream: {
+            name: "Live",
+            type: "LiveStream",
+            target: document.querySelector('#interactive'), // Thiết lập video stream
+            constraints: {
+                width: 640,
+                height: 480,
+                facingMode: "environment" // Sử dụng camera sau
             },
-            decoder: {
-                readers: ["code_128_reader"]
-            }
-        }, function(err) {
-            if (err) {
-                console.log(err);
-                return;
-            }
-            console.log("Initialization finished. Ready to start");
-            Quagga.start();
-        });
+        },
+        decoder: {
+            readers: ["code_128_reader", "ean_reader", "ean_8_reader", "code_39_reader", "code_39_vin_reader", "codabar_reader", "upc_reader", "upc_e_reader", "i2of5_reader"]
+        },
+    }, function (err) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        console.log("QuaggaJS đã khởi tạo thành công");
+        Quagga.start();
+    });
 
-        Quagga.onDetected(onDetectedHandler);
-    }
-
-    function onDetectedHandler(result) {
-        const code = result.codeResult.code;
-        console.log('Barcode detected and processed: [' + code + ']');
-        resultElement.innerHTML = 'Detected Barcode: ' + code;
-
-        //alert(result);
-/*
-        // Gửi mã code đến API
-        fetch('https://yourapi.example.com/barcode', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ barcode: code })
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Success:', data);
-            alert('Barcode data sent to API: ' + JSON.stringify(data));
-
-            // Tiếp tục quét sau khi hiển thị thông báo thành công
-            setTimeout(() => {
-                resultElement.innerHTML = '';
-                Quagga.start(); // Bắt đầu lại quá trình quét
-            }, 2000); // Hiển thị thông báo trong 2 giây trước khi tiếp tục quét
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            alert('Failed to send barcode data to API.');
-        });
-*/
-        // Tạm dừng Quagga sau khi quét xong để tránh quét lại liên tục
-        Quagga.stop();
-    }
-
-    startScanner();
+    // Xử lý kết quả quét mã vạch
+    Quagga.onDetected(function (data) {
+        var resultElement = document.getElementById('result');
+        resultElement.innerHTML = `Mã vạch được phát hiện: ${data.codeResult.code}`;
+        console.log(data);
+    });
 });
