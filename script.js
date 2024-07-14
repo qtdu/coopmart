@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const code = result.codeResult.code;
         console.log('Barcode detected and processed: [' + code + ']');
         resultElement.innerHTML = 'Detected Barcode: ' + code;
-
+/*
         // Gửi mã code đến API
         fetch('https://yourapi.example.com/barcode', {
             method: 'POST',
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error:', error);
             alert('Failed to send barcode data to API.');
         });
-
+*/
         // Tạm dừng Quagga sau khi quét xong để tránh quét lại liên tục
         Quagga.stop();
     }
