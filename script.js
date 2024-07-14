@@ -22,21 +22,22 @@ function startScanning() {
     });
 
     Quagga.onDetected(function(result) {
+        Quagga.stop();
         let code = result.codeResult.code;
-        document.getElementById('result').innerText = `Scanned code: ${code}`;
         
-        Quagga.stop(); // Dừng Quagga
         Quagga.offDetected(); // Loại bỏ sự kiện để tránh quét nhiều lần
-        
+
         Quagga.onProcessed(function() {
-            // Đảm bảo Quagga đã dừng hoàn toàn trước khi tiếp tục
-            askForContinue();
+            document.getElementById('result').innerText = `Scanned code: ${code}`;
+            askForContinue(`Scanned code: ${code}`);
         });
+        
+        
     });
 }
 
-function askForContinue() {
-    let continueScanning = confirm("Do you want to scan another barcode?");
+function askForContinue(ketqua) {
+    let continueScanning = confirm(ketqua + " - Do you want to scan another barcode?");
     if (continueScanning) {
         startScanning();
     } else {
