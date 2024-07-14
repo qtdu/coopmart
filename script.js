@@ -33,8 +33,10 @@ function startScanning() {
 function askForContinue(ketqua) {
     let continueScanning = confirm(ketqua + " - Do you want to scan another barcode?");
     if (continueScanning) {
+        Quagga.stop();
         startScanning();
     } else {
+        Quagga.stop();
         document.getElementById('interactive').innerHTML = "";
         document.getElementById('result').innerText = "Scanning stopped.";
     }
