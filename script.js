@@ -1,3 +1,4 @@
+let lastScannedCode = null;
 document.getElementById('start-scan').addEventListener('click', function() {
     startScanning();
 });
@@ -22,9 +23,20 @@ function startScanning() {
     });
 
     Quagga.onDetected(function(result) {
-        Quagga.stop();
-        let code = result.codeResult.code;
         
+        let code = result.codeResult.code;
+        if (code !== lastScannedCode) {
+            lastScannedCode = code; // Cập nhật mã đã quét
+            document.getElementById('result').innerText = `Scanned code: ${code}`;
+
+            Quagga.stop(); // Dừng Quagga
+            Quagga.offDetected(); // Loại bỏ sự kiện phát hiện để tránh quét lại cùng mã
+
+            Quagga.onProcessed(function() {
+                // Đảm bảo Quagga đã dừng hoàn toàn trước khi tiếp tục
+                askForContinue();
+            });
+        }
         Quagga.offDetected(); // Loại bỏ sự kiện để tránh quét nhiều lần
 
         //Quagga.onProcessed(function() {
@@ -39,6 +51,7 @@ function startScanning() {
 function askForContinue(ketqua) {
     let continueScanning = confirm(ketqua + " - Do you want to scan another barcode?");
     if (continueScanning) {
+        lastScannedCode = null; // Reset mã đã quét
         startScanning();
     } else {
         document.getElementById('interactive').innerHTML = "";
