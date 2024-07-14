@@ -1,10 +1,13 @@
-document.addEventListener('DOMContentLoaded', function () {
-    // Cấu hình QuaggaJS
+document.getElementById('start-scan').addEventListener('click', function() {
+    startScanner();
+});
+
+function startScanner() {
     Quagga.init({
         inputStream: {
             name: "Live",
             type: "LiveStream",
-            target: document.querySelector('#interactive'), // Thiết lập video stream
+            target: document.querySelector('#scanner-container'), // Trỏ tới vùng chứa video
             constraints: {
                 width: 640,
                 height: 480,
@@ -14,19 +17,25 @@ document.addEventListener('DOMContentLoaded', function () {
         decoder: {
             readers: ["code_128_reader", "ean_reader", "ean_8_reader", "code_39_reader", "code_39_vin_reader", "codabar_reader", "upc_reader", "upc_e_reader", "i2of5_reader"]
         },
-    }, function (err) {
+    }, function(err) {
         if (err) {
-            console.log(err);
+            console.error(err);
             return;
         }
-        console.log("QuaggaJS đã khởi tạo thành công");
+        console.log("Initialization finished. Ready to start");
         Quagga.start();
     });
 
-    // Xử lý kết quả quét mã vạch
-    Quagga.onDetected(function (data) {
-        var resultElement = document.getElementById('result');
-        resultElement.innerHTML = `Mã vạch được phát hiện: ${data.codeResult.code}`;
-        console.log(data);
+    Quagga.onDetected(function(result) {
+        Quagga.stop(); // Dừng quét sau khi phát hiện mã vạch
+        let code = result.codeResult.code;
+        document.getElementById('result').innerText = "Scanned code: " + code;
+        
+        let continueScanning = confirm("Scanned code: " + code + "\nDo you want to scan again?");
+        if (continueScanning) {
+            startScanner(); // Tiếp tục quét
+        } else {
+            alert("Scanning stopped.");
+        }
     });
-});
+}
