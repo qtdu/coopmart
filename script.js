@@ -25,13 +25,13 @@ function startScanning() {
         Quagga.stop();
         let code = result.codeResult.code;
         document.getElementById('result').innerText = `Scanned code: ${code}`;
-        alert(`Scanned code: ${code}`)
-        askForContinue();
+        //alert(`Scanned code: ${code}`)
+        askForContinue(`Scanned code: ${code}`);
     });
 }
 
-function askForContinue() {
-    let continueScanning = confirm("Do you want to scan another barcode?");
+function askForContinue(ketqua) {
+    let continueScanning = confirm(ketqua + " - Do you want to scan another barcode?");
     if (continueScanning) {
         startScanning();
     } else {
