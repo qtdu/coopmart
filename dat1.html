@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Iframe Data Extraction</title>
+    <script>
+        function extractData() {
+            var iframe = document.getElementById('myIframe');
+            var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+            var data = iframeDocument.getElementById('data').textContent;
+            document.getElementById('output').innerText = data;
+        }
+
+        function loadIframe() {
+            var iframe = document.getElementById('myIframe');
+            iframe.src = 'dat2.php';
+            iframe.onload = function() {
+                extractData();
+            };
+        }
+
+        window.onload = function() {
+            loadIframe();
+        };
+    </script>
+</head>
+<body>
+    <h1>Iframe Data Extraction Example</h1>
+    <iframe id="myIframe" style="width: 600px; height: 400px;"></iframe>
+    <div>
+        <h2>Extracted Data:</h2>
+        <p id="output"></p>
+    </div>
+</body>
+</html>
