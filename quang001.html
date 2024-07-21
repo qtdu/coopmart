@@ -32,10 +32,14 @@
 
                     codeReader.decodeFromVideoDevice(firstDeviceId, 'video', (result, err) => {
                         if (result) {
-                            if (result.text != oldCodeQR)
-                            document.getElementById('result').textContent = result.text;
-                            oldCodeQR = result.text
-                            loadIframe(result.text)
+                            if (result.text != oldCodeQR) {
+                                //document.getElementById('result').textContent = result.text;
+                                oldCodeQR = result.text
+                                alert(result.text)
+                                loadIframe(result.text)
+                                
+                            }
+                            
                         }
                         if (err && !(err instanceof ZXing.NotFoundException)) {
                             console.error(err);
@@ -51,7 +55,8 @@
             var iframe = document.getElementById('myIframe');
             var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
             var data = iframeDocument.getElementById('data').textContent;
-            document.getElementById('output').innerText = data;
+            //document.getElementById('output').innerText = data;
+            document.getElementById('result').innerText = data;
         }
 
         function loadIframe(CodeQR) {
