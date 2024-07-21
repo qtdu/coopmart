@@ -30,10 +30,18 @@
             const deviceSelect = document.getElementById('deviceSelect');
             const resultElement = document.getElementById('result');
             
-            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                alert('getUserMedia is not supported in this browser.');
-                return;
-            }
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    var video = document.getElementById('video');
+                    video.srcObject = stream;
+                    video.play();
+                    //document.getElementById('message').textContent = 'Camera access granted.';
+                })
+                .catch(function(error) {
+                    console.error('Error accessing camera:', error);
+                    return
+                });
+            
             codeReader.listVideoInputDevices()
                 .then((videoInputDevices) => {
                     videoInputDevices.forEach((device) => {
