@@ -16,8 +16,10 @@
     <h1>QR Code Scanner</h1>
     <video id="video" playsinline></video>
     <p id="result"></p>
+    <iframe id="myIframe" style="width: 600px; height: 400px;"></iframe>
 
     <script>
+        oldCodeQR = ""
         window.addEventListener('load', function() {
             const codeReader = new ZXing.BrowserQRCodeReader();
             const videoElement = document.getElementById('video');
@@ -30,7 +32,10 @@
 
                     codeReader.decodeFromVideoDevice(firstDeviceId, 'video', (result, err) => {
                         if (result) {
+                            if (result.text != oldCodeQR)
                             document.getElementById('result').textContent = result.text;
+                            oldCodeQR = result.text
+                            loadIframe(result.text)
                         }
                         if (err && !(err instanceof ZXing.NotFoundException)) {
                             console.error(err);
@@ -41,6 +46,23 @@
                     console.error(err);
                 });
         });
+
+        function extractData() {
+            var iframe = document.getElementById('myIframe');
+            var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+            var data = iframeDocument.getElementById('data').textContent;
+            document.getElementById('output').innerText = data;
+        }
+
+        function loadIframe(CodeQR) {
+            var iframe = document.getElementById('myIframe');
+            var formattedTime = getCurrentTimeFormatted();
+            iframe.src = 'dat2.html?time=' + CodeQR;
+            iframe.onload = function() {
+                extractData();
+            };
+        }
+
     </script>
 </body>
 </html>
