@@ -61,7 +61,7 @@
 
         function loadIframe(CodeQR) {
             var iframe = document.getElementById('myIframe');
-            var formattedTime = getCurrentTimeFormatted();
+            
             iframe.src = 'dat2.html?time=' + CodeQR;
             iframe.onload = function() {
                 extractData();
