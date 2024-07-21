@@ -3,18 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Extract URL Parameter</title>
+    <title>Get URL Parameter</title>
+    <script>
+        function getQueryParam(param) {
+            var urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        window.onload = function() {
+            var paramName = 'time'; // Tên tham số bạn muốn lấy
+            var paramValue = getQueryParam(paramName);
+            document.getElementById('data').textContent = paramValue ? paramValue : 'No data provided';
+        };
+    </script>
 </head>
 <body>
-    <h1>Extract Data from URL Parameter</h1>
-    <?php
-        // Lấy giá trị từ tham số URL
-        if (isset($_GET['param'])) {
-            $data = htmlspecialchars($_GET['param']);
-        } else {
-            $data = 'No data provided';
-        }
-    ?>
-    <p id="data"><?php echo $data; ?></p>
+    <h1>Extract URL Parameter</h1>
+    <p id="data"></p>
 </body>
 </html>
