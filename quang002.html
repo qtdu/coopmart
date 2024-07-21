@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code and Barcode Scanner</title>
+    <script src="https://unpkg.com/@zxing/library@latest"></script>
+    <style>
+        #video {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>QR Code and Barcode Scanner</h1>
+    <div>
+        <label for="deviceSelect">Select Camera:</label>
+        <select id="deviceSelect"></select>
+    </div>
+    <video id="video" playsinline></video>
+    <p>Scanned Result: <span id="result"></span></p>
+
+    <script>
+        window.addEventListener('load', function() {
+            const codeReader = new ZXing.BrowserMultiFormatReader();
+            const video = document.getElementById('video');
+            const deviceSelect = document.getElementById('deviceSelect');
+            const resultElement = document.getElementById('result');
+
+            codeReader.listVideoInputDevices()
+                .then((videoInputDevices) => {
+                    videoInputDevices.forEach((device) => {
+                        const option = document.createElement('option');
+                        option.text = device.label;
+                        option.value = device.deviceId;
+                        deviceSelect.appendChild(option);
+                    });
+
+                    deviceSelect.onchange = () => {
+                        codeReader.reset();
+                        startScan();
+                    };
+
+                    startScan();
+
+                    function startScan() {
+                        const selectedDeviceId = deviceSelect.value;
+                        codeReader.decodeFromVideoDevice(selectedDeviceId, video, (result, err) => {
+                            if (result) {
+                                resultElement.textContent = result.text;
+                                console.log(result);
+                            }
+                            if (err && !(err instanceof ZXing.NotFoundException)) {
+                                console.error(err);
+                            }
+                        });
+                    }
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        });
+    </script>
+</body>
+</html>
