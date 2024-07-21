@@ -26,7 +26,7 @@
                 .listVideoInputDevices()
                 .then((videoInputDevices) => {
                     // Select the first camera device
-                    const firstDeviceId = videoInputDevices[0].deviceId;
+                    const firstDeviceId = videoInputDevices[1].deviceId;
 
                     codeReader.decodeFromVideoDevice(firstDeviceId, 'video', (result, err) => {
                         if (result) {
