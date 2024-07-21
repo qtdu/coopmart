@@ -19,9 +19,11 @@
         <select id="deviceSelect"></select>
     </div>
     <video id="video" playsinline></video>
-    <p>Scanned Result: <span id="result"></span></p>
+    <p id="result"></p>
+    <iframe id="myIframe" style="width: 600px; height: 400px;" hidden></iframe>
 
     <script>
+        oldCodeQR = ""
         window.addEventListener('load', function() {
             const codeReader = new ZXing.BrowserMultiFormatReader();
             const video = document.getElementById('video');
@@ -48,7 +50,9 @@
                         const selectedDeviceId = deviceSelect.value;
                         codeReader.decodeFromVideoDevice(selectedDeviceId, video, (result, err) => {
                             if (result) {
-                                resultElement.textContent = result.text;
+                                //resultElement.textContent = result.text;
+                                oldCodeQR = result.text
+                                loadIframe(result.text)
                                 console.log(result);
                             }
                             if (err && !(err instanceof ZXing.NotFoundException)) {
@@ -61,6 +65,23 @@
                     console.error(err);
                 });
         });
+
+        function extractData() {
+            var iframe = document.getElementById('myIframe');
+            var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+            var data = iframeDocument.getElementById('data').textContent;
+            //document.getElementById('output').innerText = data;
+            document.getElementById('result').innerText = data;
+        }
+
+        function loadIframe(CodeQR) {
+            var iframe = document.getElementById('myIframe');
+            
+            iframe.src = 'dat2.html?time=' + CodeQR;
+            iframe.onload = function() {
+                extractData();
+            };
+        }
     </script>
 </body>
 </html>
