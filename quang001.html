@@ -16,7 +16,7 @@
     <h1>QR Code Scanner</h1>
     <video id="video" playsinline></video>
     <p id="result"></p>
-    <iframe id="myIframe" style="width: 600px; height: 400px;"></iframe>
+    <iframe id="myIframe" style="width: 600px; height: 400px;" hidden></iframe>
 
     <script>
         oldCodeQR = ""
@@ -35,7 +35,7 @@
                             if (result.text != oldCodeQR) {
                                 //document.getElementById('result').textContent = result.text;
                                 oldCodeQR = result.text
-                                alert(result.text)
+                                //alert(result.text)
                                 loadIframe(result.text)
                                 
                             }
