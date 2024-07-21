@@ -12,12 +12,27 @@
 
         function loadIframe() {
             var iframe = document.getElementById('myIframe');
-            iframe.src = 'dat2.html';
+            iframe.src = 'dat2.html?time=' + formattedTime;
             iframe.onload = function() {
                 extractData();
             };
         }
 
+        function getCurrentTimeFormatted() {
+            var now = new Date();
+            var year = now.getFullYear();
+            var month = String(now.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0
+            var day = String(now.getDate()).padStart(2, '0');
+            var hours = String(now.getHours()).padStart(2, '0');
+            var minutes = String(now.getMinutes()).padStart(2, '0');
+            var seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            // Định dạng thời gian theo yyyyMMddHHmmss
+            var formattedTime = `${year}${month}${day}${hours}${minutes}${seconds}`;
+            return formattedTime;
+        }
+
+        
         window.onload = function() {
             loadIframe();
         };
