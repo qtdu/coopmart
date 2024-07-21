@@ -1,10 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>PHP Data Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extract URL Parameter</title>
 </head>
 <body>
-    <h1>Data from PHP</h1>
-    <p id="data">This is the data from the PHP page.</p>
+    <h1>Extract Data from URL Parameter</h1>
+    <?php
+        // Lấy giá trị từ tham số URL
+        if (isset($_GET['param'])) {
+            $data = htmlspecialchars($_GET['param']);
+        } else {
+            $data = 'No data provided';
+        }
+    ?>
+    <p id="data"><?php echo $data; ?></p>
 </body>
 </html>
