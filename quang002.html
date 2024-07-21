@@ -62,10 +62,12 @@
                         const selectedDeviceId = deviceSelect.value;
                         codeReader.decodeFromVideoDevice(selectedDeviceId, video, (result, err) => {
                             if (result) {
-                                //resultElement.textContent = result.text;
-                                oldCodeQR = result.text
-                                loadIframe(result.text)
-                                console.log(result);
+                                if (result.text != oldCodeQR) {
+                                    //resultElement.textContent = result.text;
+                                    oldCodeQR = result.text
+                                    loadIframe(result.text)
+                                    console.log(result);
+                                }
                             }
                             if (err && !(err instanceof ZXing.NotFoundException)) {
                                 console.error(err);
