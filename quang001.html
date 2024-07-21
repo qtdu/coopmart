@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner</title>
+    <script src="https://unpkg.com/@zxing/library@latest"></script>
+    <style>
+        #video {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>QR Code Scanner</h1>
+    <video id="video" playsinline></video>
+    <p id="result"></p>
+
+    <script>
+        window.addEventListener('load', function() {
+            const codeReader = new ZXing.BrowserQRCodeReader();
+            const videoElement = document.getElementById('video');
+
+            codeReader
+                .listVideoInputDevices()
+                .then((videoInputDevices) => {
+                    // Select the first camera device
+                    const firstDeviceId = videoInputDevices[0].deviceId;
+
+                    codeReader.decodeFromVideoDevice(firstDeviceId, 'video', (result, err) => {
+                        if (result) {
+                            document.getElementById('result').textContent = result.text;
+                        }
+                        if (err && !(err instanceof ZXing.NotFoundException)) {
+                            console.error(err);
+                        }
+                    });
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        });
+    </script>
+</body>
+</html>
