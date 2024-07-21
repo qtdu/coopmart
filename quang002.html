@@ -29,7 +29,11 @@
             const video = document.getElementById('video');
             const deviceSelect = document.getElementById('deviceSelect');
             const resultElement = document.getElementById('result');
-
+            
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                alert('getUserMedia is not supported in this browser.');
+                return;
+            }
             codeReader.listVideoInputDevices()
                 .then((videoInputDevices) => {
                     videoInputDevices.forEach((device) => {
