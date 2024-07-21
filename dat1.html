@@ -12,6 +12,7 @@
 
         function loadIframe() {
             var iframe = document.getElementById('myIframe');
+            var formattedTime = getCurrentTimeFormatted();
             iframe.src = 'dat2.html?time=' + formattedTime;
             iframe.onload = function() {
                 extractData();
